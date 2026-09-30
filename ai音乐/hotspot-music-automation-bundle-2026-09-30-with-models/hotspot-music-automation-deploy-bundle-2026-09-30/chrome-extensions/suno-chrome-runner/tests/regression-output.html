@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>Suno DOM regression</title>
+<style>
+  #editor, #counter, #stale-counter, #style { display: block; }
+</style>
+</head><body><div id="form">
+  <div id="lyrics-label">Lyrics</div>
+  <div id="editor" contenteditable="true" role="textbox" aria-label="Lyrics editor"></div>
+  <span id="counter">0 / 5000</span>
+  <section aria-label="Styles">
+  <div id="styles-label">Styles</div>
+    <div id="style" contenteditable="true" role="textbox">folk, warm</div>
+  <textarea id="cowriter" placeholder="Ask anything"></textarea>
+  </section>
+</div>
+<div id="old-form" style="display: block; margin-top: 1200px">
+  <div contenteditable="true" role="textbox" aria-label="Lyrics editor">旧任务残留</div>
+  <span id="stale-counter">5000/5000</span>
+</div>
+<pre id="result"></pre>
+<script src="../content.js"></script>
+<script>
+  const test = window.__sunoRunnerTest;
+  const editor = document.querySelector("#editor");
+  const staleEditor = document.querySelector("#old-form [contenteditable]");
+  const style = document.querySelector("#style");
+  const counter = document.querySelector("#counter");
+  function bindCounter(current) {
+    current.addEventListener("input", () => {
+      const text = current.innerText || current.textContent || "";
+      counter.textContent = `${text.length} / 5000`;
+    });
+  }
+  function replaceLiveEditor(previous, value) {
+    const next = previous.cloneNode(false);
+    next.textContent = value;
+    previous.replaceWith(next);
+    bindCounter(next);
+    counter.textContent = `${value.length} / 5000`;
+    return next;
+  }
+  bindCounter(editor);
+  editor.innerText = "第三条任务的新歌词";
+  // A stale focused node must not win over the current form editor.
+  staleEditor.focus();
+  const firstChecks = {
+    currentEditorWinsOverVisibleStaleEditor: test.lyricsEditor() === editor,
+    localCounterWins: test.visibleLyricsCounter(editor) === 320,
+    distantStaleCounterIgnored: test.visibleLyricsCounter(editor) !== 5000,
+    formValidationUsesLocalCounter: test.validateForm(editor, style, "第三条任务的新歌词", "folk, warm").ok,
+    contenteditableStyleIsDetected: test.styleEditor() === style,
+    cowriterIsNotLyrics: test.lyricsEditor() !== document.querySelector("#cowriter"),
+    safeLyricsLimit: test.safeSunoText("x".repeat(5000), 3200).length === 3200,
+    staleFocusedNodeIgnored: test.liveLyricsEditor(staleEditor, "第三条任务的新歌词") === editor
+  };
+  let replacement = replaceLiveEditor(editor, "旧任务残留");
+  const replacementCleared = test.clearEditable(replacement);
+  const checks = {
+    ...firstChecks,
+    reactReplacementCanBeCleared: replacementCleared && test.editableText(replacement) === "",
+    replacementEditorRemainsSelected: test.lyricsEditor() === replacement,
+    replacementKeepsLocalCounter: test.visibleLyricsCounter(replacement) === 0,
+    replacementExpectedTextSelected: test.liveLyricsEditor(replacement, "") === replacement
+  };
+  (async () => {
+    const tasks = [
+      "第一条连续任务的原创歌词，包含副歌和间奏。" + "a".repeat(160),
+      "第二条连续任务的原创歌词，模拟 React 重建节点。" + "b".repeat(220),
+      "第三条连续任务的原创歌词，不能继承上一条内容。" + "c".repeat(280)
+    ];
+    const sequentialResults = [];
+    let current = replacement;
+    for (let index = 0; index < tasks.length; index += 1) {
+      if (index > 0) current = replaceLiveEditor(current, `第${index + 1}条旧任务残留`);
+      const result = await test.writeEditable(current, tasks[index], 3200);
+      sequentialResults.push({
+        ok: result.ok,
+        exact: result.value === tasks[index],
+        liveNode: result.element === current,
+        length: result.value.length,
+        counter: test.visibleLyricsCounter(result.element)
+      });
+      current = result.element || current;
+    }
+    checks.sequentialThreeTasks = sequentialResults.every(item =>
+      item.ok && item.exact && item.liveNode && item.length <= 3200 && item.counter <= 4300
+    );
+    checks.sequentialDetails = sequentialResults;
+    const styleResult = await test.writeStyleEditable(style, "jazz, warm, medium", 600);
+    checks.contenteditableStyleCanBeWritten = styleResult.ok && test.editableText(style) === "jazz, warm, medium";
+    document.querySelector("#result").textContent = JSON.stringify(checks);
+    document.title = Object.values(checks).filter(value => typeof value === "boolean").every(Boolean) ? "PASS" : "FAIL";
+  })().catch(error => {
+    checks.sequentialThreeTasks = false;
+    checks.sequentialError = String(error && error.stack || error);
+    document.querySelector("#result").textContent = JSON.stringify(checks);
+    document.title = "FAIL";
+  });
+</script>
+</body></html>

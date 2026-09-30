@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>网易云音乐上传助手</title>
+<link rel="stylesheet" href="popup.css">
+<main>
+  <h2>网易云音乐版权上传</h2>
+  <p class="hint">先导入文件和元数据，再打开网易云上传页。扩展只操作可见页面，不调用私有接口。</p>
+  <label>音频文件（MP3/WAV/FLAC）<input id="audio" type="file" accept=".mp3,.wav,.flac,audio/mpeg,audio/wav,audio/flac" multiple></label>
+  <label>歌词文件（TXT，可选）<input id="lyrics" type="file" accept=".txt,text/plain" multiple></label>
+  <section class="grid">
+    <label>演唱者<input id="singer" value="周华强" placeholder="输入艺人名/艺人id搜索"></label>
+    <label>词作者<input id="lyricist" value="周华强" placeholder="输入艺人名/艺人id搜索"></label>
+    <label>曲作者<input id="composer" value="周华强" placeholder="输入艺人名/艺人id搜索"></label>
+    <label>曲风<input id="genre" value="流行 Pop" placeholder="例如：流行 Pop"></label>
+    <label>语种<input id="language" value="国语" placeholder="例如：国语"></label>
+    <label>歌曲版本<input id="version" value="录音室版" placeholder="例如：录音室版"></label>
+  </section>
+  <label>AI 类型<input id="aiType" value="Suno AI" placeholder="例如：Suno AI"></label>
+  <label>发布方式
+    <select id="publishMode"><option value="now">立即发布</option><option value="scheduled">定时发布</option></select>
+  </label>
+  <label class="check"><input id="autoSubmit" type="checkbox"> 所有必填项和平台上传完成后自动点击“提交”</label>
+  <div class="actions">
+    <button id="import">导入/更新队列</button>
+    <button id="start">开始处理</button>
+    <button id="stop">停止</button>
+    <button id="clear" class="secondary">清空</button>
+  </div>
+  <pre id="status">等待操作</pre>
+  <div id="queue"></div>
+</main>
+<script src="popup.js"></script>

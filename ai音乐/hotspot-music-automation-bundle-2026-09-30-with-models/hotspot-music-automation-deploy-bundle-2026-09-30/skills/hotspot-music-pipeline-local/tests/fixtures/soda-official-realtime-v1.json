@@ -1,0 +1,24 @@
+{
+  "chart_name": "汽水音乐官方实时热歌榜",
+  "updated_at": "2026-09-01T12:00:00+08:00",
+  "data": [
+    {
+      "id": "fixture-song-1",
+      "name": "示例原创歌曲",
+      "artist": "示例歌手",
+      "rank": 1,
+      "heat": "12.3万",
+      "url": "https://music.douyin.com/qishui/share/track?track_id=fixture-song-1",
+      "style_tags": ["pop", "warm"]
+    },
+    {
+      "id": "fixture-song-2",
+      "name": "夜航示例",
+      "artist": ["示例歌手甲", "示例歌手乙"],
+      "rank": 2,
+      "heat": 98765,
+      "url": "https://music.douyin.com/qishui/share/track?track_id=fixture-song-2",
+      "style_tags": ["electronic", "melancholic"]
+    }
+  ]
+}

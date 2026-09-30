@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "腾讯音乐启明星批量上传助手",
+  "version": "0.1.39",
+  "description": "在腾讯音乐启明星作品上传页按本地队列填充并提交原创音乐与歌词。",
+  "permissions": ["storage", "tabs", "scripting"],
+  "host_permissions": ["https://y.qq.com/*"],
+  "background": {"service_worker": "background.js"},
+  "action": {
+    "default_title": "腾讯音乐上传助手",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": []
+}

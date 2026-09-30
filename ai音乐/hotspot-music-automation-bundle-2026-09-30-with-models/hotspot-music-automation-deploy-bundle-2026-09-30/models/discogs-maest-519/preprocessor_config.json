@@ -1,0 +1,19 @@
+{
+  "auto_map": {
+    "AutoFeatureExtractor": "feature_extraction_maest.MAESTFeatureExtractor"
+  },
+  "do_normalize": true,
+  "feature_extractor_type": "MAESTFeatureExtractor",
+  "feature_size": 1,
+  "hop_length": 256,
+  "log_compression": "logC",
+  "max_length": 1876,
+  "mean": 2.06755686098554,
+  "n_fft": 512,
+  "num_mel_bins": 96,
+  "padding_side": "right",
+  "padding_value": 0.0,
+  "return_attention_mask": false,
+  "sampling_rate": 16000,
+  "std": 1.268292820667291
+}

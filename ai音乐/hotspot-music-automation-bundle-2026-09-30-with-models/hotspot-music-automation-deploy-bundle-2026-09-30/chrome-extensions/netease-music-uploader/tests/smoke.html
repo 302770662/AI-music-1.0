@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>网易云上传助手 smoke</title>
+<button id="添加歌曲">添加歌曲</button>
+<section id="drawer" hidden>
+  <label>歌曲名<input placeholder="歌曲名"></label>
+  <label>歌词<textarea placeholder="歌词"></textarea></label>
+  <label>演唱者<input placeholder="演唱者"></label>
+  <label>词作者<input placeholder="词作者"></label>
+  <label>曲作者<input placeholder="曲作者"></label>
+  <input type="file" accept="audio/mpeg,.mp3">
+  <button>提交</button>
+</section>
+<script>document.querySelector('#添加歌曲').onclick=()=>document.querySelector('#drawer').hidden=false;</script>

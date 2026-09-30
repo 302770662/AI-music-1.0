@@ -1,0 +1,16 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>腾讯音乐上传助手</title>
+<link rel="stylesheet" href="popup.css">
+<main>
+  <h3>腾讯音乐启明星上传</h3>
+  <p class="hint">音频与歌词按文件名配对；先在上传页登录，再开始队列。</p>
+  <label>音频文件（MP3/WAV）<input id="audio" type="file" accept="audio/mpeg,audio/wav,.mp3,.wav" multiple></label>
+  <label>歌词文件（TXT/DOC/DOCX）<input id="lyrics" type="file" accept="text/plain,.txt,.doc,.docx" multiple></label>
+  <label>默认作者<input id="artist" placeholder="例如：周华强"></label>
+  <button id="import">导入本地队列</button>
+  <button id="reset">恢复失败/中断任务</button>
+  <button id="requeue">重试失败/中断任务</button>
+  <pre id="status">等待操作</pre>
+</main>
+<script src="popup.js"></script>

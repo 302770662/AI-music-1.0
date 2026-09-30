@@ -1,0 +1,138 @@
+# Public metadata sources. The collector never logs in or downloads media.
+# A source can be disabled when its public page is dynamic or unavailable.
+sources:
+  - id: google-news-cn
+    platform: Google News
+    category: news
+    type: rss
+    url: https://news.google.com/rss?hl=zh-CN&gl=CN&ceid=CN:zh-Hans
+    limit: 30
+  - id: bing-news-cn
+    platform: Bing News
+    category: news
+    type: rss
+    url: https://www.bing.com/news/search?q=%E4%B8%AD%E5%9B%BD&format=rss
+    limit: 30
+  - id: baidu-realtime
+    platform: 百度热搜
+    category: hot_search
+    type: html_rank
+    url: https://top.baidu.com/board?tab=realtime
+    limit: 30
+  - id: weibo-realtime
+    platform: 微博热搜
+    category: hot_search
+    type: html_rank
+    url: https://weibo.com/a/hot/realtime
+    limit: 30
+  - id: zhihu-hot
+    platform: 知乎热榜
+    category: hot_search
+    type: html_rank
+    url: https://www.zhihu.com/hot
+    limit: 30
+  - id: douyin-hot
+    platform: 抖音热点
+    category: hot_search
+    type: html_rank
+    url: https://www.douyin.com/hot
+    limit: 30
+  - id: hupu-hot
+    platform: 虎扑热点
+    category: hot_search
+    type: html_rank
+    url: https://bbs.hupu.com/topic
+    limit: 30
+  - id: bilibili-all-ranking
+    platform: 哔哩哔哩全站榜
+    category: video_hot
+    type: json
+    url: https://api.bilibili.com/x/web-interface/ranking/v2?rid=0&type=all
+    items_path: data.list
+    fields:
+      title: title
+      url: short_link_v2
+      rank: rank
+      heat: stat.view
+      author: owner.name
+    rank_mode: sequence
+    limit: 30
+  - id: bilibili-music-ranking
+    platform: 哔哩哔哩音乐区
+    category: song_chart
+    type: json
+    url: https://api.bilibili.com/x/web-interface/ranking/v2?rid=3&type=all
+    items_path: data.list
+    fields:
+      title: title
+      url: short_link_v2
+      rank: rank
+      heat: stat.view
+      author: owner.name
+      genre: tname
+    rank_mode: sequence
+    limit: 30
+  - id: netease-song-chart
+    platform: 网易云音乐
+    category: song_chart
+    type: json
+    url: https://music.163.com/api/playlist/detail?id=3778678
+    items_path: result.tracks
+    url_template: https://music.163.com/song?id={id}
+    fields: {title: name, url: url, rank: position, heat: popularity, author: artists}
+    rank_mode: sequence
+    limit: 30
+  - id: qqmusic-song-chart
+    platform: QQ音乐
+    category: song_chart
+    type: html_qq_chart
+    url: https://y.qq.com/n/ryqq/toplist/26
+    limit: 30
+  - id: soda-song-chart
+    platform: 汽水音乐客户端搜索
+    category: song_search
+    type: json
+    enabled: false
+    url: https://music.douyin.com/
+    url_env: HOTSPOT_SODA_CHART_URL
+    items_path: data
+    fields: {title: name, url: url, rank: rank, heat: heat, author: artist, genre: genre, style_tags: style_tags}
+    browser_source_mode: android_emulator_visible_ui
+    disabled_reason: client search/user-created playlist metadata only; not an official real-time chart
+  # Optional official adapters. Keep disabled until the platform provides an
+  # authorized endpoint and the response schema is documented.
+  - id: weibo-official-json
+    platform: 微博热搜官方接口
+    category: hot_search
+    type: json
+    enabled: false
+    url_env: HOTSPOT_WEIBO_OFFICIAL_URL
+    items_path: data
+    fields: {title: title, url: url, rank: rank, heat: heat}
+    disabled_reason: configure only an authorized official Weibo endpoint
+  - id: douyin-official-json
+    platform: 抖音热点官方接口
+    category: hot_search
+    type: json
+    enabled: false
+    url_env: HOTSPOT_DOUYIN_OFFICIAL_URL
+    items_path: data
+    fields: {title: title, url: url, rank: rank, heat: heat}
+    disabled_reason: configure only an authorized official Douyin endpoint
+  - id: soda-official-json
+    platform: 汽水音乐官方实时热歌榜
+    category: song_chart
+    type: json
+    enabled: true
+    url_env: HOTSPOT_SODA_OFFICIAL_URL
+    source_mode: official_json
+    official_chart: true
+    schema: soda_official_realtime_chart_v1
+    items_path: data
+    rank_mode: field
+    rank_base: 0
+    require_item_url: true
+    required_item_fields: [title, artist, rank, url]
+    allowed_item_hosts: [music.douyin.com, douyin.com, www.douyin.com]
+    fields: {title: name, url: url, rank: rank, heat: heat, artist: artist, author: artist, album: album, duration: duration, is_vip: is_vip, item_id: id, chart_name: chart_name, style_tags: style_tags}
+    disabled_reason: set HOTSPOT_SODA_OFFICIAL_URL to an authorized official real-time chart endpoint

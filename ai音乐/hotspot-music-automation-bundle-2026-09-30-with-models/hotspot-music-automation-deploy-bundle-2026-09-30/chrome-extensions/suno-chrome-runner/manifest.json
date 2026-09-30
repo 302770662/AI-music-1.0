@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Hotspot Music Suno Queue Runner",
+  "version": "1.8.62",
+  "description": "Drive a local, user-started Suno queue through the visible Suno page.",
+  "permissions": ["tabs", "alarms", "downloads"],
+  "host_permissions": [
+    "https://suno.com/*",
+    "https://www.suno.com/*",
+    "file:///D:/projects/local/hotspot-music-runtime/*",
+    "http://127.0.0.1:8765/*",
+    "http://localhost:8765/*",
+    "http://127.0.0.1:8766/*",
+    "http://localhost:8766/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://suno.com/*", "https://www.suno.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["file:///D:/projects/local/hotspot-music-runtime/dashboard.html"],
+      "js": ["dashboard-bridge.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

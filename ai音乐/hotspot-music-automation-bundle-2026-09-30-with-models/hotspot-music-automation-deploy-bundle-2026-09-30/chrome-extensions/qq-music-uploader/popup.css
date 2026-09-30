@@ -1,0 +1,8 @@
+body { width: 330px; margin: 0; padding: 16px; font: 13px system-ui, sans-serif; color: #152238; }
+h3 { margin: 0 0 8px; }
+.hint { color: #65748b; line-height: 1.45; }
+label { display: block; margin: 10px 0; }
+input { display: block; width: 100%; box-sizing: border-box; margin-top: 5px; }
+button { margin: 6px 6px 0 0; padding: 7px 10px; border: 0; border-radius: 5px; background: #1677ff; color: white; cursor: pointer; }
+#reset { background: #68758a; }
+pre { white-space: pre-wrap; color: #087f5b; min-height: 35px; }

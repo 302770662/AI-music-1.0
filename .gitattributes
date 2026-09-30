@@ -1,0 +1,2 @@
+ai音乐/hotspot-music-automation-bundle-2026-09-30-with-models/hotspot-music-automation-deploy-bundle-2026-09-30/models/discogs-maest-519/model.safetensors filter=lfs diff=lfs merge=lfs -text
+ai音乐/hotspot-music-automation-bundle-2026-09-30-with-models/hotspot-music-automation-deploy-bundle-2026-09-30/models/whisper/models--Systran--faster-whisper-base/snapshots/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/model.bin filter=lfs diff=lfs merge=lfs -text

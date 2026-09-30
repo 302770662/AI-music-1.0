@@ -1,0 +1,44 @@
+timezone: Asia/Shanghai
+data_root: ./data
+model_root: D:/projects/local/hotspot-music-runtime/models
+device: auto
+max_concurrency: 1
+audio:
+  sample_rate: 16000
+  channels: 1
+  loudness_lufs: -14
+asr:
+  model: base
+  model_path: D:/projects/local/hotspot-music-runtime/models/whisper/models--Systran--faster-whisper-base/snapshots/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66
+  device: auto
+  compute_type: float16
+ocr:
+  languages: chi_sim+eng
+deepseek:
+  enabled: true
+  base_url: https://api.deepseek.com
+  model: deepseek-chat
+  api_key_env: HOTSPOT_DEEPSEEK_API_KEY
+  timeout_sec: 45
+  curation_timeout_sec: 180
+  lyrics_timeout_sec: 20
+  temperature: 0.85
+  max_tokens: 1200
+  # 30-event B站 curation needs more room than the generic creative budget.
+  curation_max_tokens: 10000
+  lyrics_max_concurrency: 4
+effnet:
+  model: Discogs-Effnet
+  model_path: D:/projects/local/hotspot-music-runtime/models/effnet-discogs/effnetdiscogs-bs64-1.pb
+  classifier_path: null
+  labels_path: null
+  fallback_classifier: Discogs-MAEST-519
+  fallback_model_path: D:/projects/local/hotspot-music-runtime/models/discogs-maest-519
+  runtime: wsl
+  wsl_python: /mnt/d/projects/local/hotspot-music-runtime/wsl-essentia/.venv311/bin/python
+  min_confidence: 0.55
+rights:
+  require_authorized_for_download: true
+  require_human_approval_before_publish: true
+suno:
+  download_root: D:/Suno歌曲下载

@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Hotspot Music Weibo Public Collector",
+  "version": "1.0.0",
+  "description": "Export only the visible public Weibo realtime hot-search DOM as JSON.",
+  "permissions": ["activeTab", "alarms", "downloads", "tabs"],
+  "host_permissions": ["https://weibo.com/a/hot/realtime*"],
+  "background": {"service_worker": "background.js"},
+  "action": {"default_title": "采集当前微博公开热搜"},
+  "content_scripts": [
+    {
+      "matches": ["https://weibo.com/a/hot/realtime*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

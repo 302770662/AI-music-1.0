@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "网易云音乐版权上传助手",
+  "version": "0.2.30",
+  "description": "按用户导入的音频与歌词队列，辅助填写网易云音乐版权服务平台的作品上传表单。",
+  "permissions": ["storage", "tabs", "activeTab", "scripting"],
+  "host_permissions": ["https://music.163.com/*"],
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_title": "网易云音乐上传助手",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [{
+    "matches": ["https://music.163.com/st/licensor-service/workmanagement/upload/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}

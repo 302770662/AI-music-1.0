@@ -1,0 +1,35 @@
+hotspot-music-automation-deploy-bundle
+Created: 2026-09-30
+
+Included
+--------
+- dashboard.html and runtime.env.example
+- chrome-extensions/suno-chrome-runner
+- chrome-extensions/netease-music-uploader
+- chrome-extensions/qq-music-uploader
+- chrome-extensions/weibo-public-collector
+- skills/hotspot-music-pipeline
+- skills/hotspot-music-pipeline-local
+- models/ (Discogs-MAEST-519, Effnet-Discogs, faster-whisper base)
+- config/runtime-portable.yaml
+- SETUP-NEW-PC.ps1 and RUN-LOCAL-API.ps1
+- DeepSeek API configuration and deployment documentation
+
+Excluded intentionally
+----------------------
+- Runtime data, generated reports, queues, downloaded media, lyrics, and task state
+- Logs, caches, backups, virtual environments, WSL environments, node_modules,
+  Python __pycache__ and .pyc files
+- Credentials, cookies, passwords, API keys and local secrets
+
+New computer deployment
+-----------------------
+1. Extract this archive to a writable directory.
+2. Run `SETUP-NEW-PC.ps1 -InstallModelDependencies -SetDeepSeekKey` once.
+3. Use the generated `.venv` and portable configuration for later runs.
+
+The DeepSeek service itself is remote and is not embedded in this archive. The
+archive contains the local client, endpoint/model configuration and bundled
+local music models; the user must provide a valid DeepSeek API Key.
+
+This archive is a copy. The original source files were not modified.

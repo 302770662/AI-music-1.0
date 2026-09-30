@@ -1,0 +1,13 @@
+本包随附的本地模型
+====================
+
+- models/discogs-maest-519/
+  Discogs-MAEST-519 音乐风格多标签模型，用于本地音乐标签推理。
+- models/effnet-discogs/effnetdiscogs-bs64-1.pb
+  Effnet-Discogs 音频编码器文件。
+- models/whisper/models--Systran--faster-whisper-base/
+  faster-whisper base 本地 ASR 模型，用于可选的音频/歌词分析。
+
+模型文件是从当前本机运行环境复制的，不包含 Hugging Face 缓存锁文件、Python 缓存或运行日志。跨电脑使用或再分发前，请自行确认对应模型的许可证和使用范围。
+
+模型总大小约 514 MB；压缩包会明显大于不含模型的版本。

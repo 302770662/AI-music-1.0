@@ -1,0 +1,59 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>AI dropdown regression</title>
+<style>
+  body { font: 14px sans-serif; margin: 30px; }
+  .row { margin: 12px 0; }
+  #ai-control { width: 240px; height: 32px; padding: 0 8px; }
+  #menu { display: none; width: 240px; border: 1px solid #aaa; }
+  #menu .option { height: 30px; line-height: 30px; padding-left: 8px; cursor: pointer; }
+</style>
+<div class="row"><label>歌曲名 <input placeholder="歌曲名" value="测试歌曲"></label></div>
+<div class="row"><label><input type="radio" name="original" checked>原唱</label><label><input type="radio" name="original">翻唱</label></div>
+<div class="row"><span>是否AI作品</span> <label><input type="radio" name="ai">否</label> <label><input type="radio" name="ai" checked>是</label>
+  <div id="ai-wrapper"><input id="ai-control" placeholder="请选择AI工具" readonly>
+    <div id="menu"><div class="option" id="suno">Suno AI</div><div class="option">Udio AI</div></div>
+  </div>
+</div>
+<div class="row"><label><input type="radio" name="version" checked>录音室版</label></div>
+<div class="row"><label>歌曲语种 <select><option>国语</option></select></label></div>
+<div class="row"><label>曲风 <select><option>流行 Pop</option></select></label></div>
+<div class="row"><label>歌词 <textarea placeholder="歌词"></textarea></label></div>
+<div class="row"><label>演唱者 <input placeholder="输入艺人名/艺人id搜索"></label></div>
+<div class="row"><label>词作者 <input placeholder="输入艺人名/艺人id搜索"></label></div>
+<div class="row"><label>曲作者 <input placeholder="输入艺人名/艺人id搜索"></label></div>
+<pre id="result">pending</pre>
+<script>
+  window.testState = { opened: 0, selected: 0, reports: [] };
+  window.chrome = window.chrome || {};
+  window.chrome.runtime = {
+    getManifest: () => ({ version: 'test' }),
+    onMessage: { addListener: fn => { window.contentListener = fn; } },
+    sendMessage: async msg => {
+      if (msg.type === 'getState') return { queue: [{ id:'test', title:'测试歌曲', audio:{ name:'test.mp3' }, metadata:{ singer:'周华强', lyricist:'周华强', composer:'周华强', aiType:'Suno AI', language:'国语', genre:'流行 Pop', version:'录音室版', isAi:true, original:'original', autoSubmit:false }, status:'pending' }] };
+      if (msg.type === 'contentStatus') testState.reports.push({ status:msg.status, step:msg.step, error:msg.error });
+      return { ok:true };
+    }
+  };
+  const aiControl = document.querySelector('#ai-control');
+  const menu = document.querySelector('#menu');
+  aiControl.addEventListener('click', () => { testState.opened++; menu.style.display = menu.style.display === 'block' ? 'none' : 'block'; });
+  document.querySelector('#suno').addEventListener('click', () => {
+    testState.selected++;
+    // Simulate a controlled UI replacing the placeholder input after selection.
+    const selected = document.createElement('span');
+    selected.id = 'selected-ai';
+    selected.textContent = 'Suno AI';
+    selected.style.cssText = 'display:inline-block;width:240px;height:32px;line-height:32px;border:1px solid #aaa';
+    aiControl.replaceWith(selected);
+    menu.style.display = 'none';
+  });
+</script>
+<script src="../content.js"></script>
+<script>
+  contentListener({ type:'start' });
+  setTimeout(() => {
+    const data = { opened:testState.opened, selected:testState.selected, displayed:document.querySelector('#selected-ai')?.textContent || null, reports:testState.reports };
+    document.querySelector('#result').textContent = JSON.stringify(data);
+  }, 6500);
+</script>
