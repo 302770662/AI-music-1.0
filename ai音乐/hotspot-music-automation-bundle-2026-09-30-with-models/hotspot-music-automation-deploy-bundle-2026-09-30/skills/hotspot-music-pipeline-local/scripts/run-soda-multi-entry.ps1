@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$Date = (Get-Date -Format 'yyyy-MM-dd'),
     [int]$MinutesPerEntry = 60,
     [int]$SampleIntervalSeconds = 30,
@@ -7,7 +7,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $runtimeRoot = 'D:\projects\local\hotspot-music-runtime'
-$skillRoot = 'D:\projects\local\.codex\skills\hotspot-music-pipeline-local'
+$skillRoot = Split-Path -Parent $PSScriptRoot
 $taskRoot = Join-Path $runtimeRoot "data\tasks\soda-daily\$Date"
 $adb = 'D:\Android\Mumu\MuMuPlayer\nx_main\adb.exe'
 $device = '127.0.0.1:16384'
@@ -191,3 +191,4 @@ foreach ($required in @('trend-snapshot.jsonl','hotspot.json','trend-status.json
 }
 Progress 'completed' 100 '汽水三入口浏览完成' "三个入口各浏览 $MinutesPerEntry 分钟，已生成公开元数据日报。"
 Write-Output "Soda multi-entry workflow completed: $taskRoot"
+
