@@ -1,7 +1,7 @@
 param()
 
 $ErrorActionPreference = 'Stop'
-$runner = 'D:\projects\local\.codex\skills\hotspot-music-pipeline-local\scripts\run-weibo-browser-ingest.ps1'
+$runner = (Join-Path $PSScriptRoot 'run-weibo-browser-ingest.ps1')
 $log = 'D:\projects\local\hotspot-music-runtime\logs\weibo-hourly-scheduler.log'
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $log) | Out-Null
 $now = Get-Date
@@ -19,3 +19,4 @@ try {
     Add-Content -LiteralPath $log -Value ("[{0}] failed Date={1} Hour={2}: {3}" -f (Get-Date -Format o), $date, $hour, $_.Exception.Message) -Encoding UTF8
     exit 1
 }
+

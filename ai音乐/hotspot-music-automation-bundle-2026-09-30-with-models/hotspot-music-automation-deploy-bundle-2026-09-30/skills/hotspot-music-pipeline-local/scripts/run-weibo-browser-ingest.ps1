@@ -7,7 +7,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $runtimeRoot = 'D:\projects\local\hotspot-music-runtime'
-$skillRoot = 'D:\projects\local\.codex\skills\hotspot-music-pipeline-local'
+$skillRoot = (Split-Path -Parent $PSScriptRoot)
 $python = Join-Path $runtimeRoot '.venv\Scripts\python.exe'
 $dashboard = Join-Path $skillRoot 'scripts\task_dashboard.py'
 $out = Join-Path $runtimeRoot "data\tasks\weibo-hourly\$Date\$Hour"
@@ -103,3 +103,4 @@ $queue = Get-Content -Raw -LiteralPath $queueStatusPath | ConvertFrom-Json
 if ([int]$queue.prompt_count -le 0) { throw "Suno queue contains no prompts" }
 Set-Progress 'completed' 100 '本小时完成' "微博公开热搜创作包完成，队列提示词 $($queue.prompt_count) 条。"
 Write-Output "Weibo public workflow completed: $out"
+
